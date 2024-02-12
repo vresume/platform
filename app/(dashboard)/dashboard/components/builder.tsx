@@ -150,7 +150,7 @@ export default withPageAuthRequired(function MailPage({
         </ResizablePanel>
         {/* <Separator /> */}
         <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-          <Tabs defaultValue="all">
+          <Tabs defaultValue="resumes">
             <div className="flex items-center px-4 py-2">
               <h1 className="text-xl font-bold">Builder
                 <span className="text-muted-foreground text-xs font-light"> v0.1.0</span>

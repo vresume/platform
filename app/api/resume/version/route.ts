@@ -5,29 +5,36 @@ import { Document } from "~/app/(dashboard)/dashboard/data";
 import { serverConfig } from "~/config/server";
 
 const GET = withApiAuthRequired(async (req: NextRequest) => {
-  const session = await getSession();
-  const config = {
-    headers: {
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-  };
+  try {
+    const session = await getSession();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${session?.accessToken}`,
+      },
+    };
 
-  const getResumesReq = await fetch(serverConfig.url + "/resume", config);
-  const resumes: Document[] = await getResumesReq.json();
+    const getResumesReq = await fetch(serverConfig.url + "/resume", config);
+    const resumes: Document[] = await getResumesReq.json();
 
-  const data = resumes.map(async (resume) => {
-    const versions = await fetch(
-      serverConfig.url + `/resume/${resume.id}/version`,
-      config
-    );
-    return await versions.json();
-  });
+    const data = resumes.map(async (resume) => {
+      const versions = await fetch(
+        serverConfig.url + `/resume/${resume.id}/version`,
+        config
+      );
+      return await versions.json();
+    });
 
-  const versions = (await Promise.all(data)).flat();
-  return NextResponse.json({
-    resumes,
-    versions,
-  });
+    const versions = (await Promise.all(data)).flat();
+    return NextResponse.json({
+      resumes,
+      versions,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      resumes: [],
+      versions: [],
+    });
+  }
 });
 
 export { GET };

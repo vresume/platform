@@ -1,39 +1,10 @@
-import addDays from "date-fns/addDays"
-import addHours from "date-fns/addHours"
 import format from "date-fns/format"
-import nextSaturday from "date-fns/nextSaturday"
 import {
-  Archive,
-  ArchiveX,
-  Clock,
-  Forward,
-  MoreVertical,
-  Reply,
-  ReplyAll,
   Trash2,
 } from "lucide-react"
 
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "~/components/ui/dropdown-menu"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/components/ui/avatar"
 import { Button } from "~/components/ui/button"
-import { Calendar } from "~/components/ui/calendar"
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu"
 import { Label } from "~/components/ui/label"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover"
 import { Separator } from "~/components/ui/separator"
 import { Switch } from "~/components/ui/switch"
 import { Textarea } from "~/components/ui/textarea"
@@ -42,17 +13,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip"
-import { Document, ResumeVersion } from "~/app/(dashboard)/dashboard/data"
-import * as DOMPurify from 'dompurify';
-import { useEffect } from "react"
-
+import { ResumeVersion } from "~/app/(dashboard)/dashboard/data"
+import DOMPurify from 'dompurify';
 
 interface BuilderDisplayProps {
   version: ResumeVersion | null | undefined
 }
 
 export function BuilderDisplay({ version }: BuilderDisplayProps) {
-  const today = new Date()
 
   return (
     <div className="flex flex-col border-l border-r border-border h-screen">
