@@ -15,12 +15,51 @@ import {
 } from "~/components/ui/tooltip"
 import { ResumeVersion } from "~/app/(dashboard)/dashboard/data"
 import DOMPurify from 'dompurify';
+import { useRouter } from 'next/navigation'
+import { useState } from "react"
+import { toast } from "sonner"
+import { ReloadIcon } from "@radix-ui/react-icons"
 
 interface BuilderDisplayProps {
   version: ResumeVersion | null | undefined
 }
 
 export function BuilderDisplay({ version }: BuilderDisplayProps) {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  const [query, setQuery] = useState('')
+
+  const handleCreateNewVersion = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      setIsLoading(true)
+      e.preventDefault()
+
+      const res = await fetch(`${window.location.origin}/api/resume/version`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: version?.documentId,
+          version: version?.version,
+          query,
+          selected: '[]'
+        })
+      })
+
+      if (!res.ok) {
+        throw new Error('Failed to create resume')
+      }
+
+      setIsLoading(false)
+
+      location.reload();
+      toast('Your resume is ready to be viewed')
+    } catch (error) {
+      setIsLoading(false)
+      toast((error as any).message)
+    }
+  }
 
   return (
     <div className="flex flex-col border-l border-r border-border h-screen">
@@ -42,15 +81,6 @@ export function BuilderDisplay({ version }: BuilderDisplayProps) {
       {version ? (
         <div className="flex flex-1 flex-col max-h-[calc(100%-4rem)] overflow-hidden">
           <div className="flex items-start p-4">
-            <div className="flex items-start gap-4 text-sm">
-              <div className="grid gap-1">
-                {/* <div className="font-semibold">{document.title}</div>
-                <div className="line-clamp-1 text-xs">{document.description}</div>
-                <div className="line-clamp-1 text-xs">
-                  <span className="font-medium">Reply-To:</span> {document.versionId}
-                </div> */}
-              </div>
-            </div>
             {version.updatedAt && (
               <div className="ml-auto text-xs text-muted-foreground">
                 {format(new Date(version.updatedAt), "PPpp")}
@@ -77,6 +107,8 @@ export function BuilderDisplay({ version }: BuilderDisplayProps) {
             <form>
               <div className="grid gap-4">
                 <Textarea
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                   className="p-4"
                   placeholder={`Update the bio section to include hackathon wins, and add a link to the project on GitHub.`}
                 />
@@ -87,23 +119,21 @@ export function BuilderDisplay({ version }: BuilderDisplayProps) {
                   >
                     <Switch id="mute" aria-label="Mute thread" /> Mail to self
                   </Label>
-                  <Button
-                    onClick={(e) => e.preventDefault()}
-                    size="sm"
-                    className="ml-auto"
-                  >
+                  <Button onClick={handleCreateNewVersion} disabled={isLoading} size="sm" className="ml-auto">
+                    {isLoading ? <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : null}
                     Create new version
                   </Button>
                 </div>
               </div>
             </form>
           </div>
-        </div>
+        </div >
       ) : (
         <div className="p-8 text-center text-muted-foreground">
           No version selected
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   )
 }

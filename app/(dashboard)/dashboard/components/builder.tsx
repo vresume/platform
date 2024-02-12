@@ -170,7 +170,7 @@ export default withPageAuthRequired(function MailPage({
               </form>
             </div>
             <TabsContent value="resumes" className="m-0">
-              <BuilderList items={documents} />
+              <BuilderList items={documents} showPlaceholder />
             </TabsContent>
             <TabsContent value="versions" className="m-0">
               <BuilderList items={

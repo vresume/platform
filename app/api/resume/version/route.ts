@@ -37,4 +37,30 @@ const GET = withApiAuthRequired(async (req: NextRequest) => {
   }
 });
 
-export { GET };
+const POST = withApiAuthRequired(async (req: NextRequest) => {
+  try {
+    const session = await getSession();
+
+    const body = await req.json();
+    const response = await fetch(
+      serverConfig.url + `/resume/${body.id}/version/${body.version}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: body.query,
+          selected: body.selected,
+        }),
+      }
+    );
+    const result = await response.json();
+    return NextResponse.json(result, { status: response.status });
+  } catch (error) {
+    return NextResponse.json({ error: JSON.stringify(error) }, { status: 500 });
+  }
+});
+
+export { GET, POST };

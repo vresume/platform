@@ -47,8 +47,7 @@ export function ResumeEmptyPlaceholder() {
       setIsLoading(false)
       setIsOpen(false)
 
-      router.push('/dashboard')
-      router.refresh()
+      location.reload();
       toast('Your resume is ready to be viewed')
     } catch (error) {
       setIsLoading(false)

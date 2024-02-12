@@ -15,10 +15,10 @@ interface BuilderListProps {
     description: Document["description"]
     updatedAt: Document["updatedAt"]
   }[]
-
+  showPlaceholder?: boolean
 }
 
-export function BuilderList({ items }: BuilderListProps) {
+export function BuilderList({ items, showPlaceholder }: BuilderListProps) {
   const [document, setDocument] = useBuilder()
 
   return (
@@ -83,7 +83,7 @@ export function BuilderList({ items }: BuilderListProps) {
             })
 
             : (
-              <ResumeEmptyPlaceholder />
+              showPlaceholder && <ResumeEmptyPlaceholder />
             )
         }
       </div>
