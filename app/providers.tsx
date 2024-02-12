@@ -5,10 +5,10 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" disableTransitionOnChange>
-        <UserProvider>
-            {children}
-        </UserProvider>
+    <ThemeProvider attribute="class" defaultTheme='dark' disableTransitionOnChange forcedTheme='dark'>
+      <UserProvider>
+        {children}
+      </UserProvider>
     </ThemeProvider>
   )
 }
