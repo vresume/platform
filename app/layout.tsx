@@ -7,6 +7,7 @@ import { siteConfig } from '~/config/site'
 import { Providers } from '~/app/providers'
 
 import '~/styles/tailwind.css'
+import { Toaster } from '~/components/ui/sonner'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -40,6 +41,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-white dark:bg-gray-950">
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   )

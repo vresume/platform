@@ -185,18 +185,6 @@ export default withPageAuthRequired(function MailPage({
                   })
                 ) : []
               } />
-
-              {/* <BuilderList items={
-                versions.length ? versions.map(
-                  (item) => ({
-                    id: item.id,
-                    title: documents.find((d) => d.id === item.id)?.title ?? 'Hello WOrld',
-                    description: documents.find((d) => d.id === item.id)?.description ?? 'Bye',
-                    updatedAt: item.updatedAt,
-                    version: String(item.version),
-                  })
-                ) : []
-              } /> */}
             </TabsContent>
           </Tabs>
         </ResizablePanel>
