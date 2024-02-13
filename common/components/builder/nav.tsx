@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { LucideIcon } from "lucide-react"
 
-import { cn } from "~/common/lib/tailwind"
+import { cn } from "~/common/utils/tailwind"
 import { buttonVariants } from "~/common/components/ui/button"
 import {
   Tooltip,

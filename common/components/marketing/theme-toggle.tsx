@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
+import { cn } from '~/common/utils/tailwind'
 
 function ThemeIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -15,7 +16,13 @@ function ThemeIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({
+  absolute = true,
+  overrideClass = '',
+}: {
+  absolute?: boolean
+  overrideClass?: string
+}) {
   let [mounted, setMounted] = useState(false)
   let { resolvedTheme, setTheme } = useTheme()
   let otherTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
@@ -31,7 +38,10 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      className="group absolute right-4 top-4 z-50 -m-2.5 p-2.5"
+      className={cn(
+        !overrideClass && "group right-4 top-4 z-50 -m-2.5 p-2.5",
+        absolute ? "absolute" : "relative"
+      )}
       onClick={() => setTheme(otherTheme)}
     >
       <span className="sr-only">Switch to {otherTheme} theme</span>

@@ -18,7 +18,7 @@ import { Input } from "~/common/components/ui/input"
 import { Label } from "~/common/components/ui/label"
 import Link from 'next/link';
 import { Code2Icon, WebhookIcon } from 'lucide-react';
-import { cn } from '~/common/lib/tailwind';
+import { cn } from '~/common/utils/tailwind';
 
 export function CopyAPIAuthorizationDialog({
   value

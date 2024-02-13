@@ -1,4 +1,4 @@
-import { handleAuth, handleLogin } from '@auth0/nextjs-auth0';
+import { handleAuth, handleLogin } from "@auth0/nextjs-auth0";
 
 export const GET = handleAuth({
   login: handleLogin({
@@ -7,7 +7,7 @@ export const GET = handleAuth({
       prompt: "login",
       scope: "openid profile email offline_access",
     },
-    returnTo: "/profile",
+    returnTo: "/dashboard/builder",
   }),
   signup: handleLogin({
     authorizationParams: {
@@ -16,6 +16,6 @@ export const GET = handleAuth({
       screen_hint: "signup",
       scope: "openid profile email offline_access",
     },
-    returnTo: "/profile",
+    returnTo: "/dashboard/builder",
   }),
 });

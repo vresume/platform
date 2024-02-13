@@ -15,7 +15,7 @@ import { toast } from "sonner"
 import { useState } from "react"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { useRouter } from 'next/navigation'
-import { cn } from "~/common/lib/tailwind"
+import { cn } from "~/common/utils/tailwind"
 
 
 export function ResumeEmptyPlaceholder({ showInfo, hide }: { showInfo?: boolean, hide?: boolean }) {

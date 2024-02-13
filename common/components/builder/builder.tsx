@@ -28,7 +28,7 @@ import { BuilderList } from "~/common/components/builder/builder-list"
 import { Nav } from "~/common/components/builder/nav"
 import { Document, ResumeVersion } from "~/hooks/data"
 import { useBuilder } from "~/common/hooks/use-builder"
-import { cn } from "~/common/lib/tailwind"
+import { cn } from "~/common/utils/tailwind"
 import { Separator } from "~/common/components/ui/separator"
 import { Input } from "~/common/components/ui/input"
 import {

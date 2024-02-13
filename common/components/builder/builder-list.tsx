@@ -1,6 +1,6 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow"
 
-import { cn } from "~/common/lib/tailwind"
+import { cn } from "~/common/utils/tailwind"
 import { ScrollArea } from "~/common/components/ui/scroll-area"
 import { Document } from "~/hooks/data"
 import { useBuilder } from "~/common/hooks/use-builder"
