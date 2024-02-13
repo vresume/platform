@@ -80,14 +80,23 @@ export default withPageAuthRequired(function MailPage({
           }
         });
       }
-      console.log(await fetchUser.json());
 
-      // const x0 = await fetch(`${window.location.origin}/api/resume/version`);
-      // const x0Data = await x0.json();
+      const fetchDocuments = await fetch(`${window.location.origin}/api/documents`);
+      if (!fetchDocuments.ok) {
+        toast('Issues fetching documents', {
+          description: fetchDocuments.statusText,
+          action: {
+            label: 'Retry',
+            onClick: () => {
+              location.reload();
+            }
+          }
+        });
+      }
+      setDocuments(await fetchDocuments.json());
 
       // console.log(x0Data);
 
-      // setDocuments(x0Data.resumes);
       // setVersions(x0Data.versions);
     })();
   }, []);
@@ -165,7 +174,6 @@ export default withPageAuthRequired(function MailPage({
           <Separator />
           <div className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2">
             <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2 items-center justify-center [&>span]:w-auto [&>svg]:hidden">
-
               <Button variant="ghost"
                 onClick={() => {
                   setSession(null);
@@ -184,7 +192,6 @@ export default withPageAuthRequired(function MailPage({
           <ThemeToggle />
 
         </ResizablePanel>
-        {/* <Separator /> */}
         <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
           <Tabs defaultValue="resumes">
             <div className="flex items-center px-4 py-2">

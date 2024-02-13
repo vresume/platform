@@ -4,7 +4,7 @@ import { serverConfig } from "~/config/server";
 
 const GET = withApiAuthRequired(async () => {
   const session = await getSession();
-  const response = await fetch(serverConfig.url + "/resumes", {
+  const response = await fetch(serverConfig.url + "/documents", {
     headers: {
       Authorization: `Bearer ${session?.accessToken}`,
     },
@@ -15,7 +15,7 @@ const GET = withApiAuthRequired(async () => {
 
 const POST = withApiAuthRequired(async (req: NextRequest) => {
   const session = await getSession();
-  const response = await fetch(serverConfig.url + "/resumes", {
+  const response = await fetch(serverConfig.url + "/documents", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${session?.accessToken}`,

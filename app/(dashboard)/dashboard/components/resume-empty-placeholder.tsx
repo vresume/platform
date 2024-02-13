@@ -30,12 +30,14 @@ export function ResumeEmptyPlaceholder() {
       const url = document.getElementById('url') as HTMLInputElement;
       const resume = document.getElementById('resume') as HTMLInputElement;
 
-      data.append('posting', url.value);
+      data.append('extras', url.value);
+      data.append('title', 'Resume');
+      data.append('description', "My resume")
       if (resume && resume.files?.length) {
-        data.append('resume', resume.files[0]);
+        data.append('document', resume.files[0]);
       }
 
-      const res = await fetch(`${window.location.origin}/api/resume`, {
+      const res = await fetch(`${window.location.origin}/api/documents`, {
         method: 'POST',
         body: data
       });
@@ -63,7 +65,7 @@ export function ResumeEmptyPlaceholder() {
         <p className="mb-4 mt-2 text-sm text-muted-foreground">
           You have not created any resumes. Add one below.
         </p>
-        <Dialog open={isOpen}>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             <Button size="sm" className="relative" onClick={() => setIsOpen(true)}>
               Create Resume
