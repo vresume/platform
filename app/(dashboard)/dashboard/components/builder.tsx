@@ -10,6 +10,7 @@ import {
   Hammer,
   HandCoins,
   Inbox,
+  LogOutIcon,
   MessagesSquare,
   PenBox,
   Search,
@@ -41,6 +42,9 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "~/componen
 import { Session } from '@auth0/nextjs-auth0';
 import { CopyAPIAuthorizationDialog } from '~/components/copy-api-authorization-dialog';
 import { ThemeToggle } from '~/components/marketing/theme-toggle';
+import { Button } from '~/components/ui/button';
+import { buttonVariants } from '~/components/ui/button';
+import { toast } from 'sonner';
 
 interface BuilderProps {
   defaultLayout: number[] | undefined
@@ -64,13 +68,27 @@ export default withPageAuthRequired(function MailPage({
       const res = await fetch(`${window.location.origin}/api/session`);
       setSession(await res.json());
 
-      const x0 = await fetch(`${window.location.origin}/api/resume/version`);
-      const x0Data = await x0.json();
+      const fetchUser = await fetch(`${window.location.origin}/api/users`);
+      if (!fetchUser.ok) {
+        toast('Issues fetching user', {
+          description: fetchUser.statusText,
+          action: {
+            label: 'Retry',
+            onClick: () => {
+              location.reload();
+            }
+          }
+        });
+      }
+      console.log(await fetchUser.json());
 
-      console.log(x0Data);
+      // const x0 = await fetch(`${window.location.origin}/api/resume/version`);
+      // const x0Data = await x0.json();
 
-      setDocuments(x0Data.resumes);
-      setVersions(x0Data.versions);
+      // console.log(x0Data);
+
+      // setDocuments(x0Data.resumes);
+      // setVersions(x0Data.versions);
     })();
   }, []);
 
@@ -142,6 +160,24 @@ export default withPageAuthRequired(function MailPage({
           <div className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2">
             <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2 items-center justify-center [&>span]:w-auto [&>svg]:hidden">
               <CopyAPIAuthorizationDialog value={session?.accessToken ?? ''} />
+            </nav>
+          </div>
+          <Separator />
+          <div className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2">
+            <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2 items-center justify-center [&>span]:w-auto [&>svg]:hidden">
+
+              <Button variant="ghost"
+                onClick={() => {
+                  setSession(null);
+                  window.location.href = '/api/auth/logout';
+                }}
+                className={cn(
+                  buttonVariants({ variant: 'outline', size: "icon" }),
+                  "h-9 w-9 p-0"
+                )}
+              >
+                <LogOutIcon className="h-4 w-4" />
+              </Button>
             </nav>
           </div>
           <Separator />
