@@ -28,10 +28,22 @@ const GET = withApiAuthRequired(async () => {
         picture: session.user.picture,
       }),
     });
-    return NextResponse.json(await post.json(), { status: post.status });
+    return NextResponse.json(
+      {
+        user: await post.json(),
+        session,
+      },
+      { status: post.status }
+    );
   }
 
-  return NextResponse.json(getJson[0], { status: get.status });
+  return NextResponse.json(
+    {
+      user: getJson[0],
+      session,
+    },
+    { status: get.status }
+  );
 });
 
 export { GET };

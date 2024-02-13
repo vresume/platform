@@ -15,9 +15,10 @@ import { toast } from "sonner"
 import { useState } from "react"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { useRouter } from 'next/navigation'
+import { cn } from "~/lib/tailwind"
 
 
-export function ResumeEmptyPlaceholder() {
+export function ResumeEmptyPlaceholder({ showInfo, hide }: { showInfo?: boolean, hide?: boolean }) {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -29,10 +30,12 @@ export function ResumeEmptyPlaceholder() {
 
       const url = document.getElementById('url') as HTMLInputElement;
       const resume = document.getElementById('resume') as HTMLInputElement;
+      const title = document.getElementById('title') as HTMLInputElement;
+      const description = document.getElementById('description') as HTMLInputElement;
 
       data.append('extras', url.value);
-      data.append('title', 'Resume');
-      data.append('description', "My resume")
+      data.append('title', title.value);
+      data.append('description', description.value);
       if (resume && resume.files?.length) {
         data.append('document', resume.files[0]);
       }
@@ -58,13 +61,27 @@ export function ResumeEmptyPlaceholder() {
   }
 
   return (
-    <div className="flex h-[450px] shrink-0 items-center justify-center rounded-md border border-dashed">
+    <div
+      className={cn(
+        "flex h-[50px] shrink-0 items-center justify-center rounded-md border border-dashed",
+        showInfo &&
+        "h-[450px]",
+        hide && "hidden"
+      )}
+    >
+
       <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
-        <File className="h-10 w-10 text-muted-foreground" />
-        <h3 className="mt-4 text-lg font-semibold">No resumes created</h3>
-        <p className="mb-4 mt-2 text-sm text-muted-foreground">
-          You have not created any resumes. Add one below.
-        </p>
+        {
+          showInfo ? (
+            <>
+              <File className="h-10 w-10 text-muted-foreground" />
+              <h3 className="mt-4 text-lg font-semibold">No resumes created</h3>
+              <p className="mb-4 mt-2 text-sm text-muted-foreground">
+                You have not created any resumes. Add one below.
+              </p>
+            </>
+          ) : null
+        }
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             <Button size="sm" className="relative" onClick={() => setIsOpen(true)}>
@@ -79,6 +96,12 @@ export function ResumeEmptyPlaceholder() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Input disabled={isLoading} id="title" placeholder="Title" />
+              </div>
+              <div className="grid gap-2">
+                <Input disabled={isLoading} id="description" placeholder="Description" />
+              </div>
               <div className="grid gap-2">
                 <Input disabled={isLoading} id="url" placeholder="https://jobs.netflix.com/jobs/316087589" />
               </div>

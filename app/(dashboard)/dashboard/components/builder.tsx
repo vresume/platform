@@ -58,16 +58,16 @@ export default withPageAuthRequired(function MailPage({
 }: BuilderProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(true)
   const [selectedDocument, setSelectedDocument] = useBuilder()
-  const [session, setSession] = useState<Session | null>(null);
 
   const [documents, setDocuments] = useState<Document[]>([])
   const [versions, setVersions] = useState<ResumeVersion[]>([])
 
+
+  const [user, setUser] = useState<Session | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${window.location.origin}/api/session`);
-      setSession(await res.json());
-
       const fetchUser = await fetch(`${window.location.origin}/api/users`);
       if (!fetchUser.ok) {
         toast('Issues fetching user', {
@@ -80,6 +80,9 @@ export default withPageAuthRequired(function MailPage({
           }
         });
       }
+      const fetchUserJson = await fetchUser.json();
+      setUser(fetchUserJson.user);
+      setSession(fetchUserJson.session);
 
       const fetchDocuments = await fetch(`${window.location.origin}/api/documents`);
       if (!fetchDocuments.ok) {
@@ -92,14 +95,32 @@ export default withPageAuthRequired(function MailPage({
             }
           }
         });
+      } else {
+        setDocuments(await fetchDocuments.json());
       }
-      setDocuments(await fetchDocuments.json());
-
-      // console.log(x0Data);
-
-      // setVersions(x0Data.versions);
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (selectedDocument.selectedDocumentId) {
+        const fetchVersions = await fetch(`${window.location.origin}/api/documents/${selectedDocument.selectedDocumentId}/versions`);
+        if (!fetchVersions.ok) {
+          toast('Issues fetching versions', {
+            description: fetchVersions.statusText,
+            action: {
+              label: 'Retry',
+              onClick: () => {
+                location.reload();
+              }
+            }
+          });
+        } else {
+          setVersions(await fetchVersions.json());
+        }
+      }
+    })();
+  }, [selectedDocument.selectedDocumentId]);
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -145,24 +166,24 @@ export default withPageAuthRequired(function MailPage({
                 icon: Hammer,
                 variant: "default",
               },
-              {
-                title: "Agency",
-                label: "",
-                icon: DoorOpenIcon,
-                variant: "ghost",
-              },
-              {
-                title: "Billing",
-                label: "",
-                icon: HandCoins,
-                variant: "ghost",
-              },
-              {
-                title: "Settings",
-                label: "",
-                icon: Settings,
-                variant: "ghost",
-              },
+              // {
+              //   title: "Agency",
+              //   label: "",
+              //   icon: DoorOpenIcon,
+              //   variant: "ghost",
+              // },
+              // {
+              //   title: "Billing",
+              //   label: "",
+              //   icon: HandCoins,
+              //   variant: "ghost",
+              // },
+              // {
+              //   title: "Settings",
+              //   label: "",
+              //   icon: Settings,
+              //   variant: "ghost",
+              // },
             ]}
           />
           <Separator />
