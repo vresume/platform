@@ -1,7 +1,7 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { NextRequest, NextResponse } from "next/server";
-import { ResumeVersion } from "~/app/(dashboard)/dashboard/data";
-import { serverConfig } from "~/config/server";
+import { ResumeVersion } from "~/hooks/data";
+import { serverConfig } from "~/common/config/server";
 
 const GET = withApiAuthRequired(async (req: NextRequest) => {
   const session = await getSession();

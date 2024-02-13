@@ -1,5 +1,5 @@
-import { IconLink } from '~/components/marketing/icon-link'
-import { StarField } from '~/components/marketing/start-field'
+import { IconLink } from '~/common/components/marketing/icon-link'
+import { StarField } from '~/common/components/marketing/start-field'
 
 export default function NotFound() {
   return (

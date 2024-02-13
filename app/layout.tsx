@@ -3,11 +3,11 @@ import { Inter } from 'next/font/google'
 import localFont from 'next/font/local'
 import clsx from 'clsx'
 
-import { siteConfig } from '~/config/site'
-import { Providers } from '~/app/providers'
+import { siteConfig } from '~/common/config/site'
+import { Providers } from '~/common/providers'
 
-import '~/styles/tailwind.css'
-import { Toaster } from '~/components/ui/sonner'
+import '~/common/styles/tailwind.css'
+import { Toaster } from '~/common/components/ui/sonner'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -16,7 +16,7 @@ const inter = Inter({
 })
 
 const monaSans = localFont({
-  src: '../fonts/Mona-Sans.var.woff2',
+  src: '../common/fonts/Mona-Sans.var.woff2',
   display: 'swap',
   variable: '--font-mona-sans',
   weight: '200 900',
