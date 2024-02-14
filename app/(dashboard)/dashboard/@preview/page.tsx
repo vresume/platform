@@ -1,7 +1,7 @@
 "use client"
 import { toast } from 'sonner';
 import format from "date-fns/format"
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Trash2 } from "lucide-react";
 import DOMPurify from 'dompurify';
 
@@ -92,7 +92,6 @@ export default function BuilderPreviewPage() {
             </div>
             <Separator />
             <div className="flex-1 whitespace-pre-wrap p-4 text-xs overflow-auto">
-
               <div
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(doc.selected?.data ?? 'No data found for this version.')
@@ -103,7 +102,6 @@ export default function BuilderPreviewPage() {
                   overflowY: 'scroll'
                 }}
               />
-
             </div>
             <Separator className="mt-auto" />
             <div className="p-4">
