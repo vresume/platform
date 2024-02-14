@@ -11,6 +11,7 @@ import { Skeleton } from '~/common/components/ui/skeleton';
 import { ScrollArea } from '~/common/components/ui/scroll-area';
 import { cn } from '~/common/utils/tailwind';
 import { Document, useBuilder } from '~/common/hooks/use-builder';
+import { EmptyPlaceholder } from './components/empty-placeholder';
 
 
 const Fallback = () => {
@@ -124,7 +125,7 @@ export default function BuilderDocumentsPage() {
                       </button>
                     );
                   })
-                  : isLoading ? <Fallback /> : null
+                  : isLoading ? <Fallback /> : <EmptyPlaceholder />
               }
             </Suspense>
           </div>
