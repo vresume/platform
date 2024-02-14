@@ -1,6 +1,5 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { NextRequest, NextResponse } from "next/server";
-import { ResumeVersion } from "~/hooks/data";
 import { serverConfig } from "~/common/config/server";
 
 const GET = withApiAuthRequired(async (req: NextRequest) => {
@@ -11,7 +10,6 @@ const GET = withApiAuthRequired(async (req: NextRequest) => {
     serverConfig.url + `/documents/${documentId}/versions`,
     {
       method: "GET",
-      cache: "force-cache",
       headers: {
         Authorization: `Bearer ${session?.accessToken}`,
       },
@@ -23,8 +21,34 @@ const GET = withApiAuthRequired(async (req: NextRequest) => {
     });
   }
 
-  const fetchVersionsJson: ResumeVersion[] = await fetchVersions.json();
+  const fetchVersionsJson = await fetchVersions.json();
   return NextResponse.json(fetchVersionsJson);
 });
 
-export { GET };
+const POST = withApiAuthRequired(async (req: NextRequest) => {
+  const session = await getSession();
+  const body = await req.json();
+
+  const res = await fetch(
+    serverConfig.url + `/documents/${body.id}/versions/${body.version}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session?.accessToken}`,
+      },
+      body: JSON.stringify({
+        query: body.query,
+        selected: body.selected,
+      }),
+    }
+  );
+
+  if (!res.ok) {
+    return NextResponse.json(await res.json(), { status: res.status });
+  }
+
+  return NextResponse.json(await res.json());
+});
+
+export { GET, POST };

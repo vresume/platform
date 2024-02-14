@@ -10,7 +10,7 @@ export function SignUpForm() {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault()
-    router.push('/dashboard/builder')
+    router.push('/dashboard')
   }
 
   return (

@@ -7,7 +7,7 @@ export const GET = handleAuth({
       prompt: "login",
       scope: "openid profile email offline_access",
     },
-    returnTo: "/dashboard/builder",
+    returnTo: "/dashboard",
   }),
   signup: handleLogin({
     authorizationParams: {
@@ -16,6 +16,6 @@ export const GET = handleAuth({
       screen_hint: "signup",
       scope: "openid profile email offline_access",
     },
-    returnTo: "/dashboard/builder",
+    returnTo: "/dashboard",
   }),
 });

@@ -55,12 +55,16 @@ const versions = [
 export type ResumeVersion = (typeof versions)[number];
 
 type Config = {
-  selectedDocumentId: Document["id"] | null;
-  selectedVersion: ResumeVersion["id"] | null;
+  selectedId: Document["id"] | null;
+  selectedVersionId: ResumeVersion["id"] | null;
+  selectedVersion: ResumeVersion["version"] | null;
+  selected: ResumeVersion | null;
 };
 
 const configAtom = atom<Config>({
-  selectedDocumentId: null,
+  selectedId: null,
+  selectedVersionId: null,
+  selected: null,
   selectedVersion: null,
 });
 
