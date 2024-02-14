@@ -19,7 +19,7 @@ import { cn } from "~/common/utils/tailwind"
 import { DocumentCreateButton } from "./document-create-button"
 
 
-export function EmptyPlaceholder({ showInfo, hide }: { showInfo?: boolean, hide?: boolean }) {
+export function EmptyPlaceholder({ isButtonOnly }: { isButtonOnly?: boolean }) {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -59,6 +59,12 @@ export function EmptyPlaceholder({ showInfo, hide }: { showInfo?: boolean, hide?
       setIsLoading(false)
       toast((error as any).message)
     }
+  }
+
+  if (isButtonOnly) {
+    return (
+      <DocumentCreateButton isOpen={isOpen} setIsOpen={setIsOpen} handleCreate={handleCreate} isLoading={isLoading} />
+    )
   }
 
   return (

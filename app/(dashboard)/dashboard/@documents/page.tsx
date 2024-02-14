@@ -88,43 +88,46 @@ export default function BuilderDocumentsPage() {
             <Suspense fallback={<Fallback />}>
               {
                 documents.length ?
-                  documents.map((document) => {
-                    return (
-                      <button
-                        key={document.id}
-                        className={cn(
-                          "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
-                          doc.selectedId === document.id && "bg-muted"
-                        )}
-                        onClick={() => {
-                          setDoc({
-                            ...doc,
-                            selectedId: document.id,
-                          });
-                        }}
-                      >
-                        <div className="flex w-full flex-col gap-1">
-                          <div className="flex items-center">
-                            <div className="flex items-center gap-2">
-                              <div className="font-semibold">{document.title}</div>
-                            </div>
-                            <div
-                              className={cn(
-                                "ml-auto text-xs",
-                                doc.selectedId === document.id
-                                  ? "text-foreground"
-                                  : "text-muted-foreground"
-                              )}
-                            >
-                              {formatDistanceToNow(new Date(document.updatedAt), {
-                                addSuffix: true,
-                              })}
+                  <>
+                    {documents.map((document) => {
+                      return (
+                        <button
+                          key={document.id}
+                          className={cn(
+                            "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
+                            doc.selectedId === document.id && "bg-muted"
+                          )}
+                          onClick={() => {
+                            setDoc({
+                              ...doc,
+                              selectedId: document.id,
+                            });
+                          }}
+                        >
+                          <div className="flex w-full flex-col gap-1">
+                            <div className="flex items-center">
+                              <div className="flex items-center gap-2">
+                                <div className="font-semibold">{document.title}</div>
+                              </div>
+                              <div
+                                className={cn(
+                                  "ml-auto text-xs",
+                                  doc.selectedId === document.id
+                                    ? "text-foreground"
+                                    : "text-muted-foreground"
+                                )}
+                              >
+                                {formatDistanceToNow(new Date(document.updatedAt), {
+                                  addSuffix: true,
+                                })}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </button>
-                    );
-                  })
+                        </button>
+                      );
+                    })}
+                    <EmptyPlaceholder isButtonOnly />
+                  </>
                   : isLoading ? <Fallback /> : <EmptyPlaceholder />
               }
             </Suspense>
