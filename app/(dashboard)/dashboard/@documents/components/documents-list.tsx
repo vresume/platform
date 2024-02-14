@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react';
 import formatDistanceToNow from "date-fns/formatDistanceToNow"
 
 import { cn } from '~/common/utils/tailwind';
+import { useBuilder } from '~/common/hooks/use-builder';
 
 
 export async function DocumentsList() {
+  const [doc] = useBuilder();
   const [documents, setDocuments] = useState<any[]>([]);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export async function DocumentsList() {
                   <div
                     className={cn(
                       "ml-auto text-xs",
-                      document.selectedDocumentId === document.id
+                      (document.selectedDocumentId === document.id || doc.selectedId === document.id)
                         ? "text-foreground"
                         : "text-muted-foreground"
                     )}
